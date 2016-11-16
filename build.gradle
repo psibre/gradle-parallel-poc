@@ -7,11 +7,8 @@ task sleep {
 }
 
 @ParallelizableTask
-class SleepExec extends DefaultTask {
-    @TaskAction
-    void sleep() {
-        project.exec {
-            commandLine 'sleep', 1
-        }
+class SleepExec extends Exec {
+    SleepExec() {
+        commandLine = ['sleep', 1]
     }
 }
