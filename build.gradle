@@ -5,6 +5,7 @@ class SleepExec extends DefaultTask {
     void sleep() {
         project.exec {
             commandLine 'sleep', 1
+            workingDir project.rootDir
         }
     }
 }
