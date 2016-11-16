@@ -2,6 +2,10 @@
     task('sleep' + it.toString().padLeft(3, '0'), type: SleepExec)
 }
 
+task sleep {
+    dependsOn tasks.withType(SleepExec)
+}
+
 class SleepExec extends DefaultTask {
     @TaskAction
     void sleep() {
