@@ -1,4 +1,6 @@
-task sleep(type: SleepExec)
+subprojects {
+    task sleep(type: SleepExec)
+}
 
 class SleepExec extends DefaultTask {
     @TaskAction
