@@ -6,6 +6,7 @@ task sleep {
     dependsOn tasks.withType(SleepExec)
 }
 
+@ParallelizableTask
 class SleepExec extends DefaultTask {
     @TaskAction
     void sleep() {
