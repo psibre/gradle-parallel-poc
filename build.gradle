@@ -1,4 +1,6 @@
-task sleep(type: SleepExec)
+(1..100).each {
+    task('sleep' + it.toString().padLeft(3, '0'), type: SleepExec)
+}
 
 class SleepExec extends DefaultTask {
     @TaskAction
