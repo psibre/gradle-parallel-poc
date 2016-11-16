@@ -10,8 +10,7 @@ task sleep {
 class SleepExec extends DefaultTask {
     @TaskAction
     void sleep() {
-        project.exec {
-            commandLine 'sleep', 1
-        }
+        def proc = ['sleep', 1].execute()
+        proc.waitFor()
     }
 }
