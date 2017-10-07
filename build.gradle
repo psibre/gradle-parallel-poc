@@ -1,6 +1,7 @@
 task sleep(type: SleepExec)
 
 import javax.inject.Inject
+import groovy.util.logging.Slf4j
 
 class SleepExec extends DefaultTask {
 
@@ -17,18 +18,28 @@ class SleepExec extends DefaultTask {
     @TaskAction
     void sleep() {
         times.times { t ->
-            logger.lifecycle "Sleeping " + "${t + 1}".padLeft("$times".length()) + "/$times"
+            def logStr = "Sleeping " + "${t + 1}".padLeft("$times".length()) + "/$times"
             workerExecutor.submit(Sleeper.class) { WorkerConfiguration config ->
                 config.isolationMode = IsolationMode.NONE
+                config.params logStr
             }
         }
     }
 }
 
+@Slf4j
 class Sleeper implements Runnable {
+
+    String logStr
+
+    @Inject
+    Sleeper(String logStr) {
+        this.logStr = logStr
+    }
 
     @Override
     void run() {
+        log.lifecycle logStr
         ['sleep', 1].execute().waitFor()
     }
 }
