@@ -1,10 +1,16 @@
 task sleep(type: SleepExec)
 
 class SleepExec extends DefaultTask {
+
+    @Input
+    int times = 100
+
     @TaskAction
     void sleep() {
-        project.exec {
-            commandLine 'sleep', 1
+        times.times {
+            project.exec {
+                commandLine 'sleep', 1
+            }
         }
     }
 }
