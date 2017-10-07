@@ -1,17 +1,34 @@
 task sleep(type: SleepExec)
 
+import javax.inject.Inject
+
 class SleepExec extends DefaultTask {
+
+    final WorkerExecutor workerExecutor
 
     @Input
     int times = 100
+
+    @Inject
+    SleepExec(WorkerExecutor workerExecutor) {
+        this.workerExecutor = workerExecutor
+    }
 
     @TaskAction
     void sleep() {
         times.times { t ->
             logger.lifecycle "Sleeping " + "${t + 1}".padLeft("$times".length()) + "/$times"
-            project.exec {
-                commandLine 'sleep', 1
+            workerExecutor.submit(Sleeper.class) { WorkerConfiguration config ->
+                config.isolationMode = IsolationMode.NONE
             }
         }
+    }
+}
+
+class Sleeper implements Runnable {
+
+    @Override
+    void run() {
+        ['sleep', 1].execute().waitFor()
     }
 }
