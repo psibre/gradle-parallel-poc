@@ -7,7 +7,8 @@ class SleepExec extends DefaultTask {
 
     @TaskAction
     void sleep() {
-        times.times {
+        times.times { t ->
+            logger.lifecycle "Sleeping " + "${t + 1}".padLeft("$times".length()) + "/$times"
             project.exec {
                 commandLine 'sleep', 1
             }
